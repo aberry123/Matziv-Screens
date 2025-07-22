@@ -50,37 +50,48 @@
     </video>
   </div>
 
-  <script>
-    const slides = Array.from(document.querySelectorAll('.slide')).filter(
-  slide => !slide.classList.contains('hidden-slide')
-);
-    let current = 0;
+ <script>
+  const allSlides = document.querySelectorAll('.slide');
 
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-      });
+  // Hide ALL slides right away to prevent flash
+  allSlides.forEach(slide => {
+    slide.style.display = 'none';
+  });
 
-      const currentSlide = slides[index];
-      const video = currentSlide.querySelector("video");
+  const slides = Array.from(allSlides).filter(
+    slide => !slide.classList.contains('hidden-slide')
+  );
 
-      if (video) {
-        video.currentTime = 0;
-        video.play();
-        video.onended = () => nextSlide();
-      } else {
-        setTimeout(() => nextSlide(), 8000);
-      }
+  let current = 0;
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+      slide.style.display = i === index ? 'block' : 'none';
+    });
+
+    const currentSlide = slides[index];
+    const video = currentSlide.querySelector("video");
+
+    if (video) {
+      video.currentTime = 0;
+      video.play();
+      video.onended = () => nextSlide();
+    } else {
+      setTimeout(() => nextSlide(), 8000);
     }
+  }
 
-    function nextSlide() {
-      current = (current + 1) % slides.length;
-      showSlide(current);
-    }
-
-    // Start slideshow
+  function nextSlide() {
+    current = (current + 1) % slides.length;
     showSlide(current);
-  </script>
+  }
+
+  // Start slideshow after DOM is ready
+  window.addEventListener('load', () => {
+    showSlide(current);
+  });
+</script>
 
 </body>
 </html>
