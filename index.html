@@ -82,13 +82,18 @@
   </div>
 </div>
 
+  <!-- SLIDE 4 - IMAGE -->
+  <div class="slide hidden-slide">
+    <img src="media/sports coming soon.png" />
+  </div>
+
  <script>
   const slides = Array.from(document.querySelectorAll('.slide')).filter(
     slide => !slide.classList.contains('hidden-slide')
   );
 
   // Track durations for each slide
-  const customDurations = [0, 20]; // <-- set your durations here
+  const customDurations = [0, 20, 15]; // <-- set your durations here
 
 const slideDurations = slides.map((slide, i) => {
   const video = slide.querySelector('video');
