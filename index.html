@@ -77,22 +77,12 @@
   </div>
 </div>
 
-  <!-- SLIDE 3 - IMAGE -->
-  <div class="slide active">
-    <img src="media/stats coming soon.png" /> <!-- Clock overlay -->
-  <div id="clock-container" style="
-    position: absolute;
-    top: 30px;
-    left: 40px;
-    z-index: 1;
-    color: white;
-    font-family: monospace;
-    font-size: 3em;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-  ">
-    <div id="date" style="font-size: 0.5em; margin-bottom: 10px;"></div>
-    <div id="clock" style="font-size: 1em;"></div>
+<!-- SLIDE 3 - IMAGE -->
+<div class="slide active">
+  <img src="media/stats coming soon.png" />
+  <div id="clock-container-slide3" style="...">
+    <div id="date-slide3" style="..."></div>
+    <div id="clock-slide3" style="..."></div>
   </div>
 </div>
 
@@ -188,19 +178,25 @@ const slideDurations = slides.map((slide, i) => {
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const seconds = now.getSeconds().toString().padStart(2, '0');
     const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+    const dateText = now.toLocaleDateString(undefined, {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+    const timeText = `${hours}:${minutes}:${seconds} ${ampm}`;
 
-    const clockEl = document.getElementById('clock');
-    const dateEl = document.getElementById('date');
+    const clocks = [
+      { clock: document.getElementById('clock'), date: document.getElementById('date') },
+      { clock: document.getElementById('clock-slide3'), date: document.getElementById('date-slide3') }
+    ];
 
-    if (clockEl && dateEl) {
-      clockEl.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
-      dateEl.textContent = now.toLocaleDateString(undefined, {
-        weekday: 'short',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      });
-    }
+    clocks.forEach(({ clock, date }) => {
+      if (clock && date) {
+        clock.textContent = timeText;
+        date.textContent = dateText;
+      }
+    });
   }
 
   setInterval(updateClock, 1000);
