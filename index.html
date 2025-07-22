@@ -37,9 +37,11 @@
     }
 
     .clock-slide {
-      background-color: ##0cc0df; /* your chosen background color */
-    }
-    
+  background-color: #0cc0df !important;
+  position: absolute; /* ensure it fills the slide */
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+}
   </style>
 </head>
 <body>
@@ -72,7 +74,7 @@
       <div id="date" style="font-size: 1.5em; margin-bottom: 10px;"></div>
       <div id="clock" style="font-size: 1.5em; letter-spacing: 0.1em;"></div>
     </div>
-    <img src="media/logo.png" alt="Logo" style="max-height: 200px; max-width: 40vw;" />
+<img src="media/logo.png" alt="Logo" style="height: 250px; width: auto;" />
   </div>
 </div>
 
