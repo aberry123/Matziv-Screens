@@ -51,6 +51,14 @@
     </video>
   </div>
 
+     <!-- SLIDE 3 - CLOCK -->
+  <div class="slide">
+  <div style="display: flex; justify-content: space-between; align-items: center; height: 100vh; padding: 0 50px; color: white; font-family: monospace;">
+    <div id="clock" style="font-size: 4em;"></div>
+    <img src="media/logo.png" alt="Logo" style="max-height: 150px; max-width: 40vw;" />
+  </div>
+</div>
+
  <script>
   const slides = Array.from(document.querySelectorAll('.slide')).filter(
     slide => !slide.classList.contains('hidden-slide')
@@ -133,6 +141,16 @@ const slideDurations = slides.map((slide, i) => {
     syncSlides(); // initial
     setInterval(syncSlides, 500); // update every 0.5s
   });
+
+   function updateClock() {
+  const now = new Date();
+  const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('clock').textContent = timeString;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
 </script>
 
 </body>
