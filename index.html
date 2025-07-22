@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <style>
-  .slide {
-    display: none;
-  }
-  .slide.active {
-    display: block;
-  }
-</style>
-  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Camp Slideshow</title>
@@ -60,37 +50,37 @@
     </video>
   </div>
 
- <script>
-  const slides = Array.from(document.querySelectorAll('.slide')).filter(
-    slide => !slide.classList.contains('hidden-slide')
-  );
-  let current = 0;
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide')).filter(
+  slide => !slide.classList.contains('hidden-slide')
+);
+    let current = 0;
 
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
-    });
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
 
-    const currentSlide = slides[index];
-    const video = currentSlide.querySelector("video");
+      const currentSlide = slides[index];
+      const video = currentSlide.querySelector("video");
 
-    if (video) {
-      video.currentTime = 0;
-      video.play();
-      video.onended = () => nextSlide();
-    } else {
-      setTimeout(() => nextSlide(), 8000);
+      if (video) {
+        video.currentTime = 0;
+        video.play();
+        video.onended = () => nextSlide();
+      } else {
+        setTimeout(() => nextSlide(), 8000);
+      }
     }
-  }
 
-  function nextSlide() {
-    current = (current + 1) % slides.length;
+    function nextSlide() {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }
+
+    // Start slideshow
     showSlide(current);
-  }
-
-  // Start slideshow
-  showSlide(current);
-</script>
+  </script>
 
 </body>
 </html>
