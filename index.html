@@ -51,56 +51,20 @@
     </video>
   </div>
 
-  <script>
+ <script>
   const slides = Array.from(document.querySelectorAll('.slide')).filter(
     slide => !slide.classList.contains('hidden-slide')
   );
 
+  // Track durations for each slide
   const slideDurations = slides.map(slide => {
     const video = slide.querySelector('video');
-    return video ? 0 : 8; // placeholder 0 for videos, 8 seconds for images
+    return video ? 0 : 8; // placeholder for videos, 8s for images
   });
 
-  let current = -1;
-
-  function totalDuration() {
-    return slideDurations.reduce((a, b) => a + b, 0);
-  }
-
-  function calculateSlideIndex(time) {
-    let total = 0;
-    for (let i = 0; i < slides.length; i++) {
-      const dur = slideDurations[i];
-      if (time < total + dur) return i;
-      total += dur;
-    }
-    return calculateSlideIndex(time % totalDuration());
-  }
-
-  function showSlide(index) {
-    if (current === index) return;
-    current = index;
-
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
-    });
-
-    const currentSlide = slides[index];
-    const video = currentSlide.querySelector("video");
-    if (video) {
-      video.currentTime = 0;
-      video.play();
-    }
-  }
-
-  function syncSlides() {
-    const now = (Date.now() / 1000) % totalDuration();
-    const index = calculateSlideIndex(now);
-    showSlide(index);
-  }
-
-  function startWhenReady() {
-    const videoPromises = slides.map((slide, i) => {
+  // Wait for video durations
+  function loadVideoDurations() {
+    const promises = slides.map((slide, i) => {
       const video = slide.querySelector("video");
       if (video) {
         return new Promise(resolve => {
@@ -109,19 +73,63 @@
             resolve();
           };
         });
-      } else {
-        return Promise.resolve();
       }
+      return Promise.resolve();
     });
-
-    Promise.all(videoPromises).then(() => {
-      syncSlides();
-      setInterval(syncSlides, 1000);
-    });
+    return Promise.all(promises);
   }
 
-  // Start
-  startWhenReady();
+  function getTotalDuration() {
+    return slideDurations.reduce((a, b) => a + b, 0);
+  }
+
+  function getCurrentSlideIndex(offsetTime) {
+    let total = 0;
+    for (let i = 0; i < slideDurations.length; i++) {
+      total += slideDurations[i];
+      if (offsetTime < total) return i;
+    }
+    return 0;
+  }
+
+  function getSlideStartTime(index) {
+    return slideDurations.slice(0, index).reduce((a, b) => a + b, 0);
+  }
+
+  let lastIndex = -1;
+
+  function syncSlides() {
+    const total = getTotalDuration();
+    const now = (Date.now() / 1000) % total;
+    const index = getCurrentSlideIndex(now);
+
+    if (index !== lastIndex) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+        if (i !== index) {
+          const video = slide.querySelector("video");
+          if (video) video.pause();
+        }
+      });
+      lastIndex = index;
+    }
+
+    const currentSlide = slides[index];
+    const video = currentSlide.querySelector("video");
+
+    if (video) {
+      const targetTime = now - getSlideStartTime(index);
+      if (Math.abs(video.currentTime - targetTime) > 0.5) {
+        video.currentTime = targetTime;
+      }
+      if (video.paused) video.play();
+    }
+  }
+
+  loadVideoDurations().then(() => {
+    syncSlides(); // initial
+    setInterval(syncSlides, 500); // update every 0.5s
+  });
 </script>
 
 </body>
