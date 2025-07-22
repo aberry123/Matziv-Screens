@@ -58,10 +58,24 @@
 
   const slideDurations = slides.map(slide => {
     const video = slide.querySelector('video');
-    return video ? video.duration || 0 : 8; // fallback to 0 for video until loaded
+    return video ? 0 : 8; // placeholder 0 for videos, 8 seconds for images
   });
 
   let current = -1;
+
+  function totalDuration() {
+    return slideDurations.reduce((a, b) => a + b, 0);
+  }
+
+  function calculateSlideIndex(time) {
+    let total = 0;
+    for (let i = 0; i < slides.length; i++) {
+      const dur = slideDurations[i];
+      if (time < total + dur) return i;
+      total += dur;
+    }
+    return calculateSlideIndex(time % totalDuration());
+  }
 
   function showSlide(index) {
     if (current === index) return;
@@ -72,50 +86,42 @@
     });
 
     const currentSlide = slides[index];
-    const video = currentSlide.querySelector('video');
-
+    const video = currentSlide.querySelector("video");
     if (video) {
       video.currentTime = 0;
       video.play();
     }
   }
 
-  function calculateSlideIndex(time) {
-    let total = 0;
-    for (let i = 0; i < slides.length; i++) {
-      const dur = slideDurations[i];
-      if (time < total + dur) return i;
-      total += dur;
-    }
-    // loop
-    return calculateSlideIndex(time % totalDuration());
-  }
-
-  function totalDuration() {
-    return slideDurations.reduce((a, b) => a + b, 0);
-  }
-
-  function updateDurations() {
-    slides.forEach((slide, i) => {
-      const video = slide.querySelector('video');
-      if (video) {
-        video.onloadedmetadata = () => {
-          slideDurations[i] = video.duration;
-        };
-      }
-    });
-  }
-
   function syncSlides() {
-    const now = (Date.now() / 1000) % totalDuration(); // synced time
+    const now = (Date.now() / 1000) % totalDuration();
     const index = calculateSlideIndex(now);
     showSlide(index);
   }
 
-  // Init
-  updateDurations();
-  syncSlides();
-  setInterval(syncSlides, 1000); // check every 1s
+  function startWhenReady() {
+    const videoPromises = slides.map((slide, i) => {
+      const video = slide.querySelector("video");
+      if (video) {
+        return new Promise(resolve => {
+          video.onloadedmetadata = () => {
+            slideDurations[i] = video.duration;
+            resolve();
+          };
+        });
+      } else {
+        return Promise.resolve();
+      }
+    });
+
+    Promise.all(videoPromises).then(() => {
+      syncSlides();
+      setInterval(syncSlides, 1000);
+    });
+  }
+
+  // Start
+  startWhenReady();
 </script>
 
 </body>
