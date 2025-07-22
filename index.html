@@ -57,10 +57,13 @@
   );
 
   // Track durations for each slide
-  const slideDurations = slides.map(slide => {
-    const video = slide.querySelector('video');
-    return video ? 0 : 8; // placeholder for videos, 8s for images
-  });
+  const customDurations = [13, 0]; // <-- set your durations here
+
+const slideDurations = slides.map((slide, i) => {
+  const video = slide.querySelector('video');
+  if (video) return 0; // video duration loaded later
+  return customDurations[i] !== undefined ? customDurations[i] : 8; // fallback 8s
+});
 
   // Wait for video durations
   function loadVideoDurations() {
