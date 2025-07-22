@@ -39,7 +39,7 @@
 <body>
 
   <!-- SLIDE 1 - IMAGE -->
-  <div class="slide active" style="display:none;">
+  <div class="slide active hidden-slide">
     <img src="media/slide1.jpg" />
   </div>
 
@@ -51,7 +51,9 @@
   </div>
 
   <script>
-    const slides = document.querySelectorAll('.slide');
+    const slides = Array.from(document.querySelectorAll('.slide')).filter(
+  slide => !slide.classList.contains('hidden-slide')
+);
     let current = 0;
 
     function showSlide(index) {
