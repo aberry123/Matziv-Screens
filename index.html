@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Camp Slideshow</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0;
+      height: 100%; width: 100%;
+      background: black;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      z-index: 0;
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    img, video {
+      max-height: 100%;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1 - IMAGE -->
+  <div class="slide active">
+    <img src="media/slide1.jpg" />
+  </div>
+
+  <!-- SLIDE 2 - VIDEO -->
+  <div class="slide">
+    <video autoplay muted playsinline>
+      <source src="media/welcome.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+
+      const currentSlide = slides[index];
+      const video = currentSlide.querySelector("video");
+
+      if (video) {
+        video.currentTime = 0;
+        video.play();
+        video.onended = () => nextSlide();
+      } else {
+        setTimeout(() => nextSlide(), 8000);
+      }
+    }
+
+    function nextSlide() {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }
+
+    // Start slideshow
+    showSlide(current);
+  </script>
+
+</body>
+</html>
