@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <style>
+  .slide {
+    display: none;
+  }
+  .slide.active {
+    display: block;
+  }
+</style>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Camp Slideshow</title>
@@ -51,23 +61,14 @@
   </div>
 
  <script>
-  const allSlides = document.querySelectorAll('.slide');
-
-  // Hide ALL slides right away to prevent flash
-  allSlides.forEach(slide => {
-    slide.style.display = 'none';
-  });
-
-  const slides = Array.from(allSlides).filter(
+  const slides = Array.from(document.querySelectorAll('.slide')).filter(
     slide => !slide.classList.contains('hidden-slide')
   );
-
   let current = 0;
 
   function showSlide(index) {
     slides.forEach((slide, i) => {
       slide.classList.toggle('active', i === index);
-      slide.style.display = i === index ? 'block' : 'none';
     });
 
     const currentSlide = slides[index];
@@ -87,10 +88,8 @@
     showSlide(current);
   }
 
-  // Start slideshow after DOM is ready
-  window.addEventListener('load', () => {
-    showSlide(current);
-  });
+  // Start slideshow
+  showSlide(current);
 </script>
 
 </body>
