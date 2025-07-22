@@ -52,36 +52,59 @@
   </div>
 
   <script>
-  const allSlides = Array.from(document.querySelectorAll('.slide')).filter(
+  const slides = Array.from(document.querySelectorAll('.slide')).filter(
     slide => !slide.classList.contains('hidden-slide')
   );
 
+  let current = -1; // Track current slide index
+
   function showSlide(index) {
-    allSlides.forEach((slide, i) => {
+    if (current === index) return; // Don't re-show same slide
+    current = index;
+
+    slides.forEach((slide, i) => {
       slide.classList.toggle('active', i === index);
     });
 
-    const currentSlide = allSlides[index];
+    const currentSlide = slides[index];
     const video = currentSlide.querySelector("video");
 
     if (video) {
       video.currentTime = 0;
       video.play();
+      // Don't call nextSlide here — let video.onended handle it naturally
     }
   }
 
-  function syncSlideToTime() {
-    const interval = 8000; // 8 seconds per slide
-    const now = Date.now();
-    const index = Math.floor(now / interval) % allSlides.length;
-    showSlide(index);
+  function getSyncedIndex() {
+    const now = Math.floor(Date.now() / 1000);
+    let index = now % slides.length;
 
-    // Schedule next update to exactly match the time boundary
-    const nextTick = interval - (now % interval);
-    setTimeout(syncSlideToTime, nextTick);
+    const currentSlide = slides[index];
+    const video = currentSlide.querySelector("video");
+
+    // If it's a video, wait until it ends to switch
+    if (video) {
+      // Only change slide when video ends
+      if (!video.onended) {
+        video.onended = () => {
+          current = (index + 1) % slides.length;
+          showSlide(current);
+        };
+      }
+    }
+
+    return index;
   }
 
-  syncSlideToTime();
+  function syncSlides() {
+    const index = getSyncedIndex();
+    showSlide(index);
+  }
+
+  // Start slideshow
+  syncSlides();
+  setInterval(syncSlides, 1000); // Check every second in case it's an image slide
 </script>
 
 </body>
