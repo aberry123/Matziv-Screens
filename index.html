@@ -56,10 +56,15 @@
     slide => !slide.classList.contains('hidden-slide')
   );
 
-  let current = -1; // Track current slide index
+  const slideDurations = slides.map(slide => {
+    const video = slide.querySelector('video');
+    return video ? video.duration || 0 : 8; // fallback to 0 for video until loaded
+  });
+
+  let current = -1;
 
   function showSlide(index) {
-    if (current === index) return; // Don't re-show same slide
+    if (current === index) return;
     current = index;
 
     slides.forEach((slide, i) => {
@@ -67,44 +72,50 @@
     });
 
     const currentSlide = slides[index];
-    const video = currentSlide.querySelector("video");
+    const video = currentSlide.querySelector('video');
 
     if (video) {
       video.currentTime = 0;
       video.play();
-      // Don't call nextSlide here — let video.onended handle it naturally
     }
   }
 
-  function getSyncedIndex() {
-    const now = Math.floor(Date.now() / 1000);
-    let index = now % slides.length;
+  function calculateSlideIndex(time) {
+    let total = 0;
+    for (let i = 0; i < slides.length; i++) {
+      const dur = slideDurations[i];
+      if (time < total + dur) return i;
+      total += dur;
+    }
+    // loop
+    return calculateSlideIndex(time % totalDuration());
+  }
 
-    const currentSlide = slides[index];
-    const video = currentSlide.querySelector("video");
+  function totalDuration() {
+    return slideDurations.reduce((a, b) => a + b, 0);
+  }
 
-    // If it's a video, wait until it ends to switch
-    if (video) {
-      // Only change slide when video ends
-      if (!video.onended) {
-        video.onended = () => {
-          current = (index + 1) % slides.length;
-          showSlide(current);
+  function updateDurations() {
+    slides.forEach((slide, i) => {
+      const video = slide.querySelector('video');
+      if (video) {
+        video.onloadedmetadata = () => {
+          slideDurations[i] = video.duration;
         };
       }
-    }
-
-    return index;
+    });
   }
 
   function syncSlides() {
-    const index = getSyncedIndex();
+    const now = (Date.now() / 1000) % totalDuration(); // synced time
+    const index = calculateSlideIndex(now);
     showSlide(index);
   }
 
-  // Start slideshow
+  // Init
+  updateDurations();
   syncSlides();
-  setInterval(syncSlides, 1000); // Check every second in case it's an image slide
+  setInterval(syncSlides, 1000); // check every 1s
 </script>
 
 </body>
