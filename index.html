@@ -35,6 +35,11 @@
       max-height: 100%;
       max-width: 100%;
     }
+
+    .clock-slide {
+      background-color: ##0cc0df; /* your chosen background color */
+    }
+    
   </style>
 </head>
 <body>
@@ -52,10 +57,22 @@
   </div>
 
      <!-- SLIDE 3 - CLOCK -->
-  <div class="slide">
-  <div style="display: flex; justify-content: space-between; align-items: center; height: 100vh; padding: 0 50px; color: white; font-family: monospace;">
-    <div id="clock" style="font-size: 4em;"></div>
-    <img src="media/logo.png" alt="Logo" style="max-height: 150px; max-width: 40vw;" />
+  <div class="slide clock-slide">
+  <div style="
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    height: 100vh; 
+    padding: 0 80px; 
+    color: black; 
+    font-family: monospace;
+    font-size: 5em; /* bigger font for clock */
+  ">
+    <div id="clock-container" style="display: flex; flex-direction: column; align-items: flex-start;">
+      <div id="date" style="font-size: 1.5em; margin-bottom: 10px;"></div>
+      <div id="clock" style="font-size: 1.5em; letter-spacing: 0.1em;"></div>
+    </div>
+    <img src="media/logo.png" alt="Logo" style="max-height: 200px; max-width: 40vw;" />
   </div>
 </div>
 
@@ -147,9 +164,26 @@ const slideDurations = slides.map((slide, i) => {
   <script>
 function updateClock() {
   const now = new Date();
-  const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+  // Format date string, e.g. "Tuesday, July 23, 2025"
+  const dateString = now.toLocaleDateString(undefined, { 
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+  });
+
+  // Format time string without leading zero in hour
+  let hours = now.getHours();
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+
+  // Convert to 12h format and remove leading zero
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12; // converts 0 -> 12
+  const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
+
+  document.getElementById('date').textContent = dateString;
   document.getElementById('clock').textContent = timeString;
 }
+
 setInterval(updateClock, 1000);
 updateClock();
 </script>
