@@ -46,19 +46,14 @@
 </head>
 <body>
 
-  <!-- SLIDE 1 - IMAGE -->
-  <div class="slide hidden-slide">
-    <img src="media/slide1.png" />
-  </div>
-
-  <!-- SLIDE 2 - VIDEO -->
+  <!-- SLIDE 1 - VIDEO -->
   <div class="slide">
     <video autoplay muted playsinline>
       <source src="media/welcome.mp4" type="video/mp4" />
     </video>
   </div>
 
-     <!-- SLIDE 3 - CLOCK -->
+     <!-- SLIDE 2 - CLOCK -->
 <div class="slide clock-slide hidden-slide" style="background-color: #f0f0f0;">
   <div style="
   display: flex; 
@@ -82,18 +77,10 @@
   </div>
 </div>
 
-  <!-- SLIDE 4 - IMAGE -->
-  <div class="slide actiive">
+  <!-- SLIDE 3 - IMAGE -->
+  <div class="slide active">
     <img src="media/stats coming soon.png" />
   </div>
-
-    <!-- SLIDE 5 - CANVA -->
-  <div class="slide">
-  <iframe src="https://matziv.my.canva.site/matziv-sports-stats" 
-          style="width: 100vw; height: 100vh; border: none;"
-          allowfullscreen>
-  </iframe>
-</div>
 
  <script>
   const slides = Array.from(document.querySelectorAll('.slide')).filter(
@@ -101,7 +88,7 @@
   );
 
   // Track durations for each slide
-  const customDurations = [10, 0, 15, 15, 15]; // <-- set your durations here
+  const customDurations = [0, 15, 15]; // <-- set your durations here
 
 const slideDurations = slides.map((slide, i) => {
   const video = slide.querySelector('video');
