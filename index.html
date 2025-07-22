@@ -87,13 +87,21 @@
     <img src="media/stats coming soon.png" />
   </div>
 
+    <!-- SLIDE 5 - CANVA -->
+  <div class="slide">
+  <iframe src="https://matziv.my.canva.site/matziv-sports-stats" 
+          style="width: 100vw; height: 100vh; border: none;"
+          allowfullscreen>
+  </iframe>
+</div>
+
  <script>
   const slides = Array.from(document.querySelectorAll('.slide')).filter(
     slide => !slide.classList.contains('hidden-slide')
   );
 
   // Track durations for each slide
-  const customDurations = [10, 0, 15, 15]; // <-- set your durations here
+  const customDurations = [10, 0, 15, 15, 15]; // <-- set your durations here
 
 const slideDurations = slides.map((slide, i) => {
   const video = slide.querySelector('video');
