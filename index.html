@@ -79,8 +79,22 @@
 
   <!-- SLIDE 3 - IMAGE -->
   <div class="slide active">
-    <img src="media/stats coming soon.png" />
+    <img src="media/stats coming soon.png" /> <!-- Clock overlay -->
+  <div id="clock-container" style="
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    z-index: 1;
+    color: white;
+    font-family: monospace;
+    font-size: 3em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  ">
+    <div id="date" style="font-size: 0.5em; margin-bottom: 10px;"></div>
+    <div id="clock" style="font-size: 1em;"></div>
   </div>
+</div>
 
  <script>
   const slides = Array.from(document.querySelectorAll('.slide')).filter(
