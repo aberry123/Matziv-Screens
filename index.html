@@ -52,36 +52,37 @@
   </div>
 
   <script>
-    const slides = Array.from(document.querySelectorAll('.slide')).filter(
-  slide => !slide.classList.contains('hidden-slide')
-);
-    let current = 0;
+  const allSlides = Array.from(document.querySelectorAll('.slide')).filter(
+    slide => !slide.classList.contains('hidden-slide')
+  );
 
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-      });
+  function showSlide(index) {
+    allSlides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+    });
 
-      const currentSlide = slides[index];
-      const video = currentSlide.querySelector("video");
+    const currentSlide = allSlides[index];
+    const video = currentSlide.querySelector("video");
 
-      if (video) {
-        video.currentTime = 0;
-        video.play();
-        video.onended = () => nextSlide();
-      } else {
-        setTimeout(() => nextSlide(), 8000);
-      }
+    if (video) {
+      video.currentTime = 0;
+      video.play();
     }
+  }
 
-    function nextSlide() {
-      current = (current + 1) % slides.length;
-      showSlide(current);
-    }
+  function syncSlideToTime() {
+    const interval = 8000; // 8 seconds per slide
+    const now = Date.now();
+    const index = Math.floor(now / interval) % allSlides.length;
+    showSlide(index);
 
-    // Start slideshow
-    showSlide(current);
-  </script>
+    // Schedule next update to exactly match the time boundary
+    const nextTick = interval - (now % interval);
+    setTimeout(syncSlideToTime, nextTick);
+  }
+
+  syncSlideToTime();
+</script>
 
 </body>
 </html>
