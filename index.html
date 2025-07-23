@@ -58,7 +58,7 @@
   </div>
 
   <!-- SLIDE 2 - CLOCK -->
-    <div class="slide clock-slide hidden-slide" style="
+    <div class="slide clock-slide" style="
   background: url('media/clock-background.png') no-repeat center center;
   background-size: cover;
   padding-left: 100px;
@@ -83,6 +83,7 @@
       font-weight: bold;
       ">
       <div id="date" style="font-size: 0.2em; margin-bottom: 10px;"></div>
+      <div id="hebrew-date" style="font-size: 0.6em; margin-top: 5px;"></div>
       <div id="clock" style="font-size: 0.5em; letter-spacing: 0.1em;"></div>
     </div>
   </div>
@@ -180,6 +181,9 @@ const slideDurations = slides.map((slide, i) => {
 
 </style>
 
+<!-- Add this to load Hebcal -->
+<script src="https://unpkg.com/@hebcal/core@2.5.0/dist/bundle.min.js"></script>
+
 <script>
 function updateClock() {
   const now = new Date();
@@ -197,12 +201,17 @@ function updateClock() {
 
   const clock = document.getElementById('clock');
   const date = document.getElementById('date');
+  const hebrewDate = document.getElementById('hebrew-date');
 
-  if (clock && date) {
+  if (clock && date && hebrewDate) {
     clock.textContent = timeText;
     date.textContent = dateText;
+
+    const hDate = new Hebcal.HDate(now);
+    hebrewDate.textContent = hDate.renderGematriya(); // e.g., כ״ז תמוז תשפ״ה
   }
 }
+
 setInterval(updateClock, 1000);
 updateClock();
 </script>
