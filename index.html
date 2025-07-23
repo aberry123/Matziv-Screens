@@ -54,28 +54,26 @@
   </div>
 
      <!-- SLIDE 2 - CLOCK -->
-<div class="slide clock-slide hidden-slide" style="
-  background: url('media/clock-background.png') no-repeat center center;
+<div class="slide clock-slide" style="
+  background: url('media/clock-background-image.png') no-repeat center center;
   background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-left: 100px;
+  box-sizing: border-box;
+  color: black;
+  font-family: monospace;
+  font-size: 7em;
 ">
-  <div style="
+  <div id="clock-container" style="
     display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    width: 100vw;
-    height: 100vh; 
-    padding-left: 100px;
-    padding-right: 100px;
-    color: black; 
-    font-family: monospace;
-    font-size: 7em;
-    box-sizing: border-box;
+    flex-direction: column; 
+    align-items: flex-start;
   ">
-    <div id="clock-container" style="display: flex; flex-direction: column; align-items: flex-start;">
-      <div id="date" style="font-size: 0.5em; margin-bottom: 20px;"></div>
-      <div id="clock" style="font-size: 1.5em; letter-spacing: 0.1em; font-weight: bold;"></div>
-    </div>
-    <img src="media/logo.png" alt="Logo" style="height: 500px; width: auto; max-width: 45vw;" />
+    <div id="date" style="font-size: 0.5em; margin-bottom: 20px;"></div>
+    <div id="clock" style="font-size: 1.5em; letter-spacing: 0.1em; font-weight: bold;"></div>
   </div>
 </div>
 
