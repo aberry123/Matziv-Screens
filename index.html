@@ -199,20 +199,15 @@ function updateClock() {
 
   const clock = document.getElementById('clock');
   const date = document.getElementById('date');
-  const hebrewDate = document.getElementById('hebrew-date');
 
-  if (clock && date && hebrewDate && window.Hebcal && Hebcal.HDate) {
+  if (clock && date) {
     clock.textContent = timeText;
     date.textContent = dateText;
-
-    const hDate = new Hebcal.HDate(now);
-    hebrewDate.textContent = hDate.renderGematriya(); // e.g., כ״ז תמוז תשפ״ה
   }
 }
 
 setInterval(updateClock, 1000);
 updateClock();
 </script>
-
 </body>
 </html>
