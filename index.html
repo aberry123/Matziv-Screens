@@ -201,11 +201,11 @@ function updateClock() {
   const date = document.getElementById('date');
   const hebrewDate = document.getElementById('hebrew-date');
 
-  if (clock && date && hebrewDate) {
+  if (clock && date && hebrewDate && window.Hebcal && Hebcal.HDate) {
     clock.textContent = timeText;
     date.textContent = dateText;
 
-    const hDate = new HDate(now);
+    const hDate = new Hebcal.HDate(now);
     hebrewDate.textContent = hDate.renderGematriya(); // e.g., כ״ז תמוז תשפ״ה
   }
 }
