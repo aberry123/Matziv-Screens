@@ -38,9 +38,13 @@
 
     .clock-slide {
   background-color: #0cc0df !important;
-  position: absolute; /* ensure it fills the slide */
+  position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: 0;
+
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
 }
   </style>
 </head>
@@ -53,14 +57,10 @@
     </video>
   </div>
 
-     <!-- SLIDE 2 - CLOCK -->
+    <!-- SLIDE 2 - CLOCK -->
 <div class="slide clock-slide" style="
   background: url('media/clock-background.png') no-repeat center center;
   background-size: cover;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
   padding-left: 100px;
   box-sizing: border-box;
   color: black;
@@ -71,9 +71,11 @@
     display: flex; 
     flex-direction: column; 
     align-items: flex-start;
+    font-size: 2em;  /* bigger font size */
+    color: black;
   ">
-    <div id="date" style="font-size: 0.5em; margin-bottom: 20px;"></div>
-    <div id="clock" style="font-size: 1.5em; letter-spacing: 0.1em; font-weight: bold;"></div>
+    <div id="date" style="font-size: 1em; margin-bottom: 20px;"></div>
+    <div id="clock" style="font-size: 2em; letter-spacing: 0.1em; font-weight: bold;"></div>
   </div>
 </div>
 
@@ -167,36 +169,33 @@ const slideDurations = slides.map((slide, i) => {
 
 </script>
 
+</style>
+
 <script>
-  function updateClock() {
-    const now = new Date();
-    const hours = now.getHours() % 12 || 12;
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
-    const dateText = now.toLocaleDateString(undefined, {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-    const timeText = `${hours}:${minutes}:${seconds} ${ampm}`;
+function updateClock() {
+  const now = new Date();
+  const hours = now.getHours() % 12 || 12;
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+  const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+  const dateText = now.toLocaleDateString(undefined, {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+  const timeText = `${hours}:${minutes}:${seconds} ${ampm}`;
 
-    const clocks = [
-      { clock: document.getElementById('clock'), date: document.getElementById('date') },
-      { clock: document.getElementById('clock-slide3'), date: document.getElementById('date-slide3') }
-    ];
+  const clock = document.getElementById('clock');
+  const date = document.getElementById('date');
 
-    clocks.forEach(({ clock, date }) => {
-      if (clock && date) {
-        clock.textContent = timeText;
-        date.textContent = dateText;
-      }
-    });
+  if (clock && date) {
+    clock.textContent = timeText;
+    date.textContent = dateText;
   }
-
-  setInterval(updateClock, 1000);
-  updateClock();
+}
+setInterval(updateClock, 1000);
+updateClock();
 </script>
 
 </body>
