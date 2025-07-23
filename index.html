@@ -221,5 +221,12 @@ updateClock();
   }
 </script>
 
+    <script>
+  // Refresh page every 2 minutes (120000 ms)
+  setTimeout(() => {
+    location.reload(true); // Force reload from server, avoid cache
+  }, 2 * 60 * 1000);
+</script>
+
 </body>
 </html>
