@@ -57,13 +57,12 @@
     </video>
   </div>
 
-    <!-- SLIDE 2 - CLOCK -->
-<div class="slide clock-slide" style="
+    <div class="slide clock-slide" style="
   background: url('media/clock-background.png') no-repeat center center;
   background-size: cover;
   padding-left: 100px;
   box-sizing: border-box;
-  color: white;
+  color: black;
   font-family: monospace;
   font-size: 7em;
 ">
@@ -71,11 +70,20 @@
     display: flex; 
     flex-direction: column; 
     align-items: flex-start;
-    font-size: 2em;  /* bigger font size */
-    color: white;
+    font-size: 2em;
   ">
-    <div id="date" style="font-size: 0.2em; margin-bottom: 20px;"></div>
-    <div id="clock" style="font-size: 0.5em; letter-spacing: 0.1em; font-weight: bold;"></div>
+    <!-- Add a box container for clock and date -->
+    <div style="
+      background: rgba(255, 255, 255, 0.7); /* white with opacity */
+      padding: 20px 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      color: black;
+      font-weight: bold;
+      ">
+      <div id="date" style="font-size: 0.2em; margin-bottom: 10px;"></div>
+      <div id="clock" style="font-size: 0.5em; letter-spacing: 0.1em;"></div>
+    </div>
   </div>
 </div>
 
