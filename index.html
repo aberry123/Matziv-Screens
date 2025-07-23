@@ -206,5 +206,23 @@ setInterval(updateClock, 1000);
 updateClock();
 </script>
 
+  <script>
+  function launchFullscreen() {
+    const el = document.documentElement;
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen(); // Safari
+    } else if (el.msRequestFullscreen) {
+      el.msRequestFullscreen(); // IE/Edge
+    }
+  }
+
+  // Auto launch on load
+  window.onload = () => {
+    launchFullscreen();
+  };
+</script>
+
 </body>
 </html>
