@@ -83,7 +83,6 @@
       font-weight: bold;
       ">
       <div id="date" style="font-size: 0.2em; margin-bottom: 10px;"></div>
-      <div id="hebrew-date" style="font-size: 0.6em; margin-top: 5px;"></div>
       <div id="clock" style="font-size: 0.5em; letter-spacing: 0.1em;"></div>
     </div>
   </div>
@@ -179,8 +178,6 @@ const slideDurations = slides.map((slide, i) => {
 
 </script>
 
-<script src="https://www.hebcal.com/etc/hdate-he-v2.js" crossorigin="anonymous"></script>
-  
 <script>
 function updateClock() {
   const now = new Date();
@@ -188,33 +185,26 @@ function updateClock() {
   const minutes = now.getMinutes().toString().padStart(2, '0');
   const seconds = now.getSeconds().toString().padStart(2, '0');
   const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
-  
   const dateText = now.toLocaleDateString(undefined, {
     weekday: 'short',
     year: 'numeric',
     month: 'short',
     day: 'numeric'
   });
-  
   const timeText = `${hours}:${minutes}:${seconds} ${ampm}`;
 
   const clock = document.getElementById('clock');
   const date = document.getElementById('date');
-  const hebrewDate = document.getElementById('hebrew-date');
 
-  if (clock && date && hebrewDate) {
+  if (clock && date) {
     clock.textContent = timeText;
     date.textContent = dateText;
-
-    // Use Hebcal HDate object to get Hebrew date string
-    const hDate = new HDate(now);
-    hebrewDate.textContent = hDate.renderGematriya(); // Hebrew date with gematria (e.g., כ״ז תמוז תשפ״ה)
   }
 }
 
 setInterval(updateClock, 1000);
 updateClock();
-  
 </script>
+
 </body>
 </html>
