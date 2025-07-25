@@ -58,7 +58,7 @@
   </div>
 
   <!-- SLIDE 2 - CLOCK -->
-    <div class="slide clock-slide" style="
+    <div class="slide clock-slide hidden-slide" style="
   background: url('media/clock-background.png') no-repeat center center;
   background-size: cover;
   padding-left: 100px;
@@ -94,7 +94,7 @@
 </div>
 
 <!-- SLIDE 4 - GSLIDE SCHEDULE -->
-<div class="slide slide-crop-wrapper">
+<div class="slide slide-crop-wrapper hidden-slide">
   <div class="slide-crop-inner">
     <iframe
       src="https://docs.google.com/presentation/d/e/2PACX-1vTkd9FQi3BRBDRe-EN2YSSU2QG8lMni51b4nTjMLNMlSjcbt__Nq3OCNpafs4sgMKwCe53Z5v2p0E-i/pubembed?start=true&loop=true&delayms=3000"
@@ -128,6 +128,11 @@
     border: none;
   }
 </style>
+
+  <!-- SLIDE 5 - SHABBOS IMAGE -->
+<div class="slide active">
+  <img src="media/shabbos.png" />
+</div>
   
  <script>
   const slides = Array.from(document.querySelectorAll('.slide')).filter(
@@ -135,7 +140,7 @@
   );
 
   // Track durations for each slide
-  const customDurations = [10,20]; // <-- set your durations here
+  const customDurations = [20]; // <-- set your durations here
 
 const slideDurations = slides.map((slide, i) => {
   const video = slide.querySelector('video');
