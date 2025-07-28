@@ -88,12 +88,17 @@
   </div>
 </div>
 
-<!-- SLIDE 3 - IMAGE -->
+<!-- SLIDE 3 - IMAGE - JS STATS -->
 <div class="slide active">
-  <img src="media/stats coming soon.png" />
+  <img src="media/stats1.png" />
 </div>
 
-<!-- SLIDE 4 - GSLIDE SCHEDULE -->
+  <!-- SLIDE 4 - IMAGE - MESIVTA STATS -->
+<div class="slide active">
+  <img src="media/stats2.png" />
+</div>
+
+<!-- SLIDE 5 - GSLIDE SCHEDULE -->
 <div class="slide slide-crop-wrapper">
   <div class="slide-crop-inner">
     <iframe
@@ -129,7 +134,12 @@
   }
 </style>
 
-  <!-- SLIDE 5 - SHABBOS IMAGE -->
+    <!-- SLIDE 6 - CANTATA IMAGE -->
+<div class="slide active">
+  <img src="media/cantata.png" />
+</div>
+  
+  <!-- SLIDE 7 - SHABBOS IMAGE -->
 <div class="slide hidden-slide">
   <img src="media/shabbos.png" />
 </div>
@@ -140,7 +150,7 @@
   );
 
   // Track durations for each slide
-  const customDurations = [10, 10, 60]; // <-- set your durations here
+  const customDurations = [10, 15, 15, 90, 15]; // <-- set your durations here
 
 const slideDurations = slides.map((slide, i) => {
   const video = slide.querySelector('video');
