@@ -46,9 +46,10 @@
       align-items: center !important;
     }
 
+    /* Progress bar styles */
     #progress-bar-container {
       position: fixed;
-      bottom: 20px;
+      bottom: 20px; /* lifted off the bottom */
       left: 0;
       width: 100%;
       height: 8px;
@@ -76,6 +77,7 @@
       transition: width 0.2s linear;
     }
 
+    /* GSLIDES STYLE */
     .slide-crop-wrapper {
       width: 100%;
       height: 100%;
@@ -101,10 +103,38 @@
 </head>
 <body>
 
+  <!-- SLIDE 1 - VIDEO -->
+  <div class="slide hidden-slide">
+    <video autoplay muted playsinline>
+      <source src="media/welcome.mp4" type="video/mp4" />
+    </video>
+  </div>
+
   <!-- SLIDE 1 - CLOCK -->
-  <div class="slide clock-slide" style="background: url('media/clock-background.png') no-repeat center center; background-size: cover; padding-left: 100px; box-sizing: border-box; color: black; font-family: monospace; font-size: 7em;">
-    <div id="clock-container" style="display: flex; flex-direction: column; align-items: flex-start; font-size: 2em;">
-      <div style="background: rgba(255, 255, 255, 0.7); padding: 20px 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); color: black; font-weight: bold;">
+  <div class="slide clock-slide" style="
+    background: url('media/clock-background.png') no-repeat center center;
+    background-size: cover;
+    padding-left: 100px;
+    box-sizing: border-box;
+    color: black;
+    font-family: monospace;
+    font-size: 7em;
+  ">
+    <div id="clock-container" style="
+      display: flex; 
+      flex-direction: column; 
+      align-items: flex-start;
+      font-size: 2em;
+    ">
+      <!-- Add a box container for clock and date -->
+      <div style="
+        background: rgba(255, 255, 255, 0.7); /* white with opacity */
+        padding: 20px 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        color: black;
+        font-weight: bold;
+      ">
         <div id="date" style="font-size: 0.2em; margin-bottom: 10px;"></div>
         <div id="clock" style="font-size: 0.5em; letter-spacing: 0.1em;"></div>
       </div>
@@ -115,21 +145,27 @@
   <div class="slide">
     <div class="slide-crop-wrapper">
       <div class="slide-crop-inner">
-        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTkd9FQi3BRBDRe-EN2YSSU2QG8lMni51b4nTjMLNMlSjcbt__Nq3OCNpafs4sgMKwCe53Z5v2p0E-i/pubembed?start=true&loop=true&delayms=20000" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>
+        <iframe
+          src="https://docs.google.com/presentation/d/e/2PACX-1vTkd9FQi3BRBDRe-EN2YSSU2QG8lMni51b4nTjMLNMlSjcbt__Nq3OCNpafs4sgMKwCe53Z5v2p0E-i/pubembed?start=true&loop=true&delayms=20000"
+          allowfullscreen mozallowfullscreen webkitallowfullscreen>
+        </iframe>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 3 - SPORTS STATS -->
+  <!-- SLIDE 3 - GSLIDE SPORTS STATS -->
   <div class="slide">
     <div class="slide-crop-wrapper">
       <div class="slide-crop-inner">
-        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vS8CTXSieL6scn1KAWIuhyBHE_FIYD5m-e8m8RfRlp3l0Ea7WpbObSHufxG9z_m8kFuDc-ueseCcCaB/pubembed?start=true&loop=true&delayms=7000" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>
+        <iframe
+          src="https://docs.google.com/presentation/d/e/2PACX-1vS8CTXSieL6scn1KAWIuhyBHE_FIYD5m-e8m8RfRlp3l0Ea7WpbObSHufxG9z_m8kFuDc-ueseCcCaB/pubembed?start=true&loop=true&delayms=7000"
+          allowfullscreen mozallowfullscreen webkitallowfullscreen>
+        </iframe>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 4 - IMAGE -->
+  <!-- SLIDE 4 - CANTATA IMAGE -->
   <div class="slide active">
     <img src="media/cantata1.png" />
   </div>
@@ -146,38 +182,26 @@
     </video>
   </div>
 
+  <!-- Progress bar -->
   <div id="progress-bar-container"></div>
 
   <script>
-    function getChicagoTime() {
-      return new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
-    }
+    const slides = Array.from(document.querySelectorAll('.slide')).filter(
+      slide => !slide.classList.contains('hidden-slide')
+    );
 
-    function isScheduleOnlyTime() {
-      const now = new Date(getChicagoTime());
-      const day = now.getDay(); // 0 = Sunday
-      const minutes = now.getHours() * 60 + now.getMinutes();
-      return day >= 0 && day <= 5 && minutes >= 694 && minutes < 696;
-    }
+    // Track durations for each slide
+    const customDurations = [5, 25, 14, 7]; // <-- set your durations here
 
-    function getActiveSlides() {
-      const allSlides = Array.from(document.querySelectorAll('.slide')).filter(slide => !slide.classList.contains('hidden-slide'));
-      if (isScheduleOnlyTime()) {
-        return [allSlides[1]]; // Only show Slide 2
-      }
-      return allSlides;
-    }
-
-    let slides = getActiveSlides();
-    const customDurations = [5, 25, 14, 7];
-    let slideDurations = slides.map((slide, i) => {
-      const video = slide.querySelector("video");
-      if (video) return 0;
-      return customDurations[i] !== undefined ? customDurations[i] : 8;
+    const slideDurations = slides.map((slide, i) => {
+      const video = slide.querySelector('video');
+      if (video) return 0; // video duration loaded later
+      return customDurations[i] !== undefined ? customDurations[i] : 8; // fallback 8s
     });
 
     const progressContainer = document.getElementById('progress-bar-container');
 
+    // Wait for video durations to load
     function loadVideoDurations() {
       const promises = slides.map((slide, i) => {
         const video = slide.querySelector("video");
@@ -241,16 +265,22 @@
         if (video.paused) video.play();
       }
 
-      // Update progress bar fills
+      // Update progress bar fills smoothly
       const segments = document.querySelectorAll('.progress-fill');
       segments.forEach((seg, i) => {
-        if (i < index) seg.style.width = '100%';
-        else if (i === index) seg.style.width = `${(elapsed / slideDuration) * 100}%`;
-        else seg.style.width = '0%';
+        if (i < index) {
+          seg.style.width = '100%';
+        } else if (i === index) {
+          const percent = (elapsed / slideDuration) * 100;
+          seg.style.width = `${percent}%`;
+        } else {
+          seg.style.width = '0%';
+        }
       });
     }
 
     loadVideoDurations().then(() => {
+      // Build progress bar segments
       progressContainer.innerHTML = '';
       slideDurations.forEach(() => {
         const segment = document.createElement('div');
@@ -260,31 +290,66 @@
         segment.appendChild(fill);
         progressContainer.appendChild(segment);
       });
+
       syncSlides();
       setInterval(syncSlides, 500);
     });
+  </script>
 
-    // Clock
+  <script>
     function updateClock() {
-      const options = { timeZone: 'America/Chicago', hour12: true, hour: 'numeric', minute: '2-digit', second: '2-digit' };
-      const dateOptions = { timeZone: 'America/Chicago', weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-      document.getElementById('clock').textContent = new Intl.DateTimeFormat('en-US', options).format(new Date());
-      document.getElementById('date').textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date());
+      const options = {
+        timeZone: 'America/Chicago',
+        hour12: true,
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit'
+      };
+
+      const dateOptions = {
+        timeZone: 'America/Chicago',
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      };
+
+      const timeText = new Intl.DateTimeFormat('en-US', options).format(new Date());
+      const dateText = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date());
+
+      const clock = document.getElementById('clock');
+      const date = document.getElementById('date');
+
+      if (clock && date) {
+        clock.textContent = timeText;
+        date.textContent = dateText;
+      }
     }
+
     setInterval(updateClock, 1000);
     updateClock();
+  </script>
 
-    // Fullscreen
+  <script>
     function launchFullscreen() {
       const el = document.documentElement;
-      if (el.requestFullscreen) el.requestFullscreen();
-      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+      if (el.requestFullscreen) {
+        el.requestFullscreen();
+      } else if (el.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen();
+      } else if (el.msRequestFullscreen) {
+        el.msRequestFullscreen();
+      }
     }
     document.body.onclick = launchFullscreen;
-
-    // Refresh every 3 minutes
-    setTimeout(() => location.reload(true), 180000);
   </script>
+
+  <!-- Refresh page every 3 minutes -->
+  <script>
+    setTimeout(() => {
+      location.reload(true);
+    }, 180000);
+  </script>
+
 </body>
 </html>
