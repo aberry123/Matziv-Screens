@@ -155,6 +155,11 @@
     </div>
   </div>
 
+  <!-- SLIDE 8 - ELECTIVES IMAGE -->
+  <div class="slide active">
+    <img src="media/electives.png" />
+  </div>
+
   <div id="progress-bar-container"></div>
 
  <script>
@@ -215,7 +220,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 40, 14, 5, 0, 30]; // Your durations; last 30s for slide7
+  const customDurations = [5, 25, 14, 5, 0, 30, 25]; // Your durations; last 30s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
