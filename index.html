@@ -140,7 +140,7 @@
   </div>
 
   <!-- SLIDE 6 - VIDEO -->
-  <div class="slide active">
+  <div class="slide hidden-slide">
     <video autoplay muted playsinline>
       <source src="media/dvday.mp4" type="video/mp4" />
     </video>
@@ -173,7 +173,7 @@
   document.querySelectorAll('.slide').forEach(slide => slide.classList.remove('active'));
 
   let slides = getActiveSlides();
-  const customDurations = [5, 25, 14, 7, 0];
+  const customDurations = [5, 25, 14, 7];
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
