@@ -112,7 +112,7 @@
   </div>
 
   <!-- SLIDE 2 - GSLIDE SCHEDULE -->
-  <div class="slide">
+  <div class="slide slide2">
     <div class="slide-crop-wrapper">
       <div class="slide-crop-inner">
         <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTkd9FQi3BRBDRe-EN2YSSU2QG8lMni51b4nTjMLNMlSjcbt__Nq3OCNpafs4sgMKwCe53Z5v2p0E-i/pubembed?start=true&loop=true&delayms=20000" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>
@@ -140,14 +140,14 @@
   </div>
 
   <!-- SLIDE 6 - VIDEO -->
-  <div class="slide hidden-slide">
+  <div class="slide">
     <video autoplay muted playsinline>
-      <source src="media/dvday.mp4" type="video/mp4" />
+      <source src="media/pics.mp4" type="video/mp4" />
     </video>
   </div>
 
   <!-- SLIDE 7 - NEW GOOGLE SLIDE WITH SCHEDULE -->
-<div id="slide7" class="slide hidden-slide">
+  <div id="slide7" class="slide slide7 hidden-slide">
     <div class="slide-crop-wrapper">
       <div class="slide-crop-inner">
         <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRF_y4VwNAMDxx9N8MKIJLrS-aCkb_RtWtpmrkKflOG3ux-a6f9WyutEfynoWhgKWwniFOxqZksiOEf/pubembed?start=true&loop=true&delayms=30000" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>
@@ -162,69 +162,60 @@
     return new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
   }
 
-  function isScheduleOnlyTime() {
+  function isSlide2OnlyTime() {
     const now = new Date(getChicagoTime());
     const day = now.getDay(); // 0 = Sunday
-    const minutes = now.getHours() * 60 + now.getMinutes();
-    return day >= 0 && day <= 5 && minutes >= 700 && minutes < 750; // 11:40am–12:30pm
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const totalMinutes = hours * 60 + minutes;
+    return day >= 0 && day <= 5 && totalMinutes >= 700 && totalMinutes < 750; // 11:40am–12:30pm
   }
 
-  function isNewSlideTime() {
+  function isSlide7AddTime() {
     const now = new Date(getChicagoTime());
-    const day = now.getDay(); // 0=Sun, 1=Mon,...,6=Sat
-    const minutes = now.getHours() * 60 + now.getMinutes();
+    const day = now.getDay(); // 0=Sun, ..., 6=Sat
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const totalMinutes = hours * 60 + minutes;
 
     // Sunday(0) to Friday(5) 9:20 AM to 10:05 AM
-    const slot1 = day >= 0 && day <= 5 && minutes >= (9*60 + 20) && minutes < (10*60 + 5);
+    const slot1 = day >= 0 && day <= 5 && totalMinutes >= (9*60 + 20) && totalMinutes < (10*60 + 5);
 
     // Sunday(0) to Friday(5) 1:15 PM to 2:00 PM
-    const slot2 = day >= 0 && day <= 5 && minutes >= (13*60 + 15) && minutes < (14*60);
+    const slot2 = day >= 0 && day <= 5 && totalMinutes >= (13*60 + 15) && totalMinutes < (14*60);
 
     // Sunday(0) to Thursday(4) 7:00 PM to 7:45 PM
-    const slot3 = day >= 0 && day <= 4 && minutes >= (19*60) && minutes < (19*60 + 45);
+    const slot3 = day >= 0 && day <= 4 && totalMinutes >= (19*60) && totalMinutes < (19*60 + 45);
 
     return slot1 || slot2 || slot3;
   }
 
- function getActiveSlides() {
-  const allVisibleSlides = Array.from(document.querySelectorAll('.slide')).filter(slide => !slide.classList.contains('hidden-slide'));
-  const allSlides = Array.from(document.querySelectorAll('.slide'));
+  function getActiveSlides() {
+    const allSlides = Array.from(document.querySelectorAll('.slide')).filter(slide => !slide.classList.contains('hidden-slide'));
+    const slide2 = document.querySelector('.slide2');
+    const slide7 = document.querySelector('.slide7');
 
-  const now = new Date(getChicagoTime());
-  const day = now.getDay();
-  const minutes = now.getHours() * 60 + now.getMinutes();
+    if (isSlide2OnlyTime()) {
+      document.getElementById('progress-bar-container').style.display = 'none';
+      return [slide2];
+    }
 
-  const isScheduleOnly = day >= 0 && day <= 5 && minutes >= 700 && minutes < 750; // 11:40–12:30
-  const slot1 = day >= 0 && day <= 5 && minutes >= (9*60 + 20) && minutes < (10*60 + 5);
-  const slot2 = day >= 0 && day <= 5 && minutes >= (13*60 + 15) && minutes < (14*60);
-  const slot3 = day >= 0 && day <= 4 && minutes >= (19*60) && minutes < (19*60 + 45);
-  const isNewSlideOnlyTime = slot1 || slot2 || slot3;
+    if (isSlide7AddTime()) {
+      // Show all normal visible slides + slide7
+      const baseSlides = allSlides.filter(slide => slide !== slide7);
+      document.getElementById('progress-bar-container').style.display = 'flex';
+      return [...baseSlides, slide7];
+    }
 
-  const slide2 = allSlides[1]; // Slide 2
-  const slide7 = document.getElementById('slide7');
-
-  if (isScheduleOnly) {
-    document.getElementById('progress-bar-container').style.display = 'none';
-    return [slide2];
+    document.getElementById('progress-bar-container').style.display = 'flex';
+    return allSlides;
   }
-
-  if (isNewSlideOnlyTime) {
-    // Make sure Slide 7 is visible
-    slide7.classList.remove('hidden-slide');
-    document.getElementById('progress-bar-container').style.display = 'none';
-    return [slide7];
-  }
-
-  // Hide Slide 7 when not in time
-  slide7.classList.add('hidden-slide');
-  document.getElementById('progress-bar-container').style.display = 'flex';
-  return allVisibleSlides;
-}
 
   document.querySelectorAll('.slide').forEach(slide => slide.classList.remove('active'));
 
   let slides = getActiveSlides();
-  const customDurations = [5, 25, 14, 7, 30]; // Added 30s for new slide
+
+  const customDurations = [5, 25, 14, 7, 0, 30]; // Your durations; last 30s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
