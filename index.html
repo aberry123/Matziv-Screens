@@ -129,24 +129,19 @@
     </div>
   </div>
 
-  <!-- SLIDE 4 - IMAGE -->
-  <div class="slide active">
-    <img src="media/cantata1.png" />
-  </div>
-
-  <!-- SLIDE 5 - SHABBOS IMAGE -->
+  <!-- SLIDE 4 - SHABBOS IMAGE -->
   <div class="slide hidden-slide">
     <img src="media/shabbos.png" />
   </div>
 
-  <!-- SLIDE 6 - VIDEO -->
+  <!-- SLIDE 5 - VIDEO -->
   <div class="slide">
     <video autoplay muted playsinline>
       <source src="media/pics.mp4" type="video/mp4" />
     </video>
   </div>
 
-  <!-- SLIDE 7 - GSLIDE BRACHOS -->
+  <!-- SLIDE 6 - GSLIDE BRACHOS -->
   <div id="slide7" class="slide slide7 hidden-slide">
     <div class="slide-crop-wrapper">
       <div class="slide-crop-inner">
@@ -155,22 +150,12 @@
     </div>
   </div>
 
- <!-- SLIDE 8 - J ELECTIVES IMAGE -->
-  <div class="slide active">
-    <img src="media/jelectives.png" />
-  </div>
-  
-  <!-- SLIDE 9 - 7TH ELECTIVES IMAGE -->
-  <div class="slide active">
-    <img src="media/electives.png" />
-  </div>
-
-    <!-- SLIDE 10 - 8TH ELECTIVES IMAGE -->
+    <!-- SLIDE 7 - 8TH ELECTIVES IMAGE -->
   <div class="slide active">
     <img src="media/electives8.png" />
   </div>
 
-   <!-- SLIDE 11 - UPDATED MALCHUS LEAGUE IMAGE -->
+   <!-- SLIDE 8 - UPDATED MALCHUS LEAGUE IMAGE -->
   <div class="slide active">
     <img src="media/updatedmalchusl.png" />
   </div>
@@ -235,7 +220,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 25, 14, 5, 0, 30, 25, 25, 25, 25]; // Your durations; last 30s for slide7
+  const customDurations = [5, 25, 14, 0, 30, 25, 25]; // Your durations; last 30s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
