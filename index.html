@@ -165,7 +165,12 @@
     <img src="media/electives.png" />
   </div>
 
-   <!-- SLIDE 10 - UPDATED MALCHUS LEAGUE IMAGE -->
+    <!-- SLIDE 10 - 8TH ELECTIVES IMAGE -->
+  <div class="slide active">
+    <img src="media/electives8.png" />
+  </div>
+
+   <!-- SLIDE 11 - UPDATED MALCHUS LEAGUE IMAGE -->
   <div class="slide active">
     <img src="media/updatedmalchusl.png" />
   </div>
@@ -230,7 +235,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 25, 14, 5, 0, 30, 25, 25, 25]; // Your durations; last 30s for slide7
+  const customDurations = [5, 25, 14, 5, 0, 30, 25, 25, 25, 25]; // Your durations; last 30s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
