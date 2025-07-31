@@ -146,7 +146,7 @@
     </video>
   </div>
 
-  <!-- SLIDE 7 - NEW GOOGLE SLIDE WITH SCHEDULE -->
+  <!-- SLIDE 7 - GSLIDE BRACHOS -->
   <div id="slide7" class="slide slide7 hidden-slide">
     <div class="slide-crop-wrapper">
       <div class="slide-crop-inner">
@@ -163,6 +163,11 @@
   <!-- SLIDE 9 - 7TH ELECTIVES IMAGE -->
   <div class="slide active">
     <img src="media/electives.png" />
+  </div>
+
+   <!-- SLIDE 10 - UPDATED MALCHUS LEAGUE IMAGE -->
+  <div class="slide active">
+    <img src="media/updatedmalchusl.png" />
   </div>
 
   <div id="progress-bar-container"></div>
@@ -225,7 +230,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 25, 14, 5, 0, 30, 25, 25]; // Your durations; last 30s for slide7
+  const customDurations = [5, 25, 14, 5, 0, 30, 25, 25, 25]; // Your durations; last 30s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
