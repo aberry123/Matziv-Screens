@@ -339,7 +339,25 @@
   document.body.onclick = launchFullscreen;
 
   // Refresh every 4 minutes
-  setTimeout(() => location.reload(true), 240000);
+let refreshDue = false;
+
+// Mark refresh due after 4 minutes
+setTimeout(() => {
+  refreshDue = true;
+}, 240000); // 4 minutes
+
+// Check every 500ms if it's on the first slide and due for refresh
+setInterval(() => {
+  if (!refreshDue) return;
+
+  const slides = getActiveSlides();
+  const current = document.querySelector('.slide.active');
+
+  if (current === slides[0]) {
+    location.reload(true);
+  }
+}, 500);
+   
 </script>
 </body>
 </html>
