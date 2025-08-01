@@ -55,6 +55,12 @@
 
     updateClock();
     setInterval(updateClock, 15000);
+
+       // Simple refresh every 4 minutes
+    setInterval(() => {
+      location.reload(true);
+    }, 240000); // 4 minutes
+    
   </script>
 </body>
 </html>
