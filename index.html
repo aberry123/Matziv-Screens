@@ -150,17 +150,7 @@
     </div>
   </div>
 
-    <!-- SLIDE 7 - 8TH ELECTIVES IMAGE -->
-  <div class="slide active">
-    <img src="media/electives8.png" />
-  </div>
-
-   <!-- SLIDE 8 - UPDATED MALCHUS LEAGUE IMAGE -->
-  <div class="slide active">
-    <img src="media/updatedmalchusl.png" />
-  </div>
-
-     <!-- SLIDE 9 - CANTATA NEWS IMAGE -->
+     <!-- SLIDE 7 - CANTATA NEWS IMAGE -->
   <div class="slide active">
     <img src="media/cantatanews.png" />
   </div>
@@ -225,7 +215,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 25, 14, 0, 30, 25, 25, 30]; // Your durations; last 30s for slide7
+  const customDurations = [5, 25, 14, 0, 30, 30]; // Your durations; last 30s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
