@@ -150,11 +150,6 @@
     </div>
   </div>
 
-    <!-- SLIDE 7 - MTBRACHOS IMAGE -->
-  <div class="slide active">
-    <img src="media/mtbrachos1.png" />
-  </div>
-
   <div id="progress-bar-container"></div>
 
  <script>
@@ -215,7 +210,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 25, 14, 30, 30]; // Your durations; last 30s for slide7
+  const customDurations = [5, 25, 14, 30]; // Your durations; last 30s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
