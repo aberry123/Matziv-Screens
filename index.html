@@ -141,12 +141,7 @@
     </video>
   </div>
 
-      <!-- SLIDE 6 - URI IMAGE -->
-  <div class="slide active">
-    <img src="media/uri.png" />
-  </div>
-
-  <!-- SLIDE 7 - GSLIDE BRACHOS -->
+  <!-- SLIDE 6 - GSLIDE BRACHOS -->
   <div id="slide7" class="slide slide7 hidden-slide">
     <div class="slide-crop-wrapper">
       <div class="slide-crop-inner">
@@ -215,7 +210,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 25, 14, 7, 30]; // Your durations; last 30s for slide7
+  const customDurations = [5, 25, 14, 30]; // Your durations; last 30s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
