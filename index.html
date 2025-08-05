@@ -124,7 +124,7 @@
   <div class="slide">
     <div class="slide-crop-wrapper">
       <div class="slide-crop-inner">
-        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vS8CTXSieL6scn1KAWIuhyBHE_FIYD5m-e8m8RfRlp3l0Ea7WpbObSHufxG9z_m8kFuDc-ueseCcCaB/pubembed?start=true&loop=true&delayms=7000" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>
+        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vS8CTXSieL6scn1KAWIuhyBHE_FIYD5m-e8m8RfRlp3l0Ea7WpbObSHufxG9z_m8kFuDc-ueseCcCaB/pubembed?start=true&loop=true&delayms=10000" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -210,7 +210,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 25, 14, 30]; // Your durations; last 30s for slide7
+  const customDurations = [5, 25, 20, 30]; // Your durations; last 30s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
