@@ -135,7 +135,7 @@
   </div>
 
   <!-- SLIDE 5 - VIDEO -->
-  <div class="slide hidden-slide">
+  <div class="slide active">
     <video autoplay muted playsinline>
       <source src="media/pics.mp4" type="video/mp4" />
     </video>
@@ -210,7 +210,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 25, 20, 30]; // Your durations; last 30s for slide7
+  const customDurations = [5, 25, 20, 0, 30]; // Your durations; last 30s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
