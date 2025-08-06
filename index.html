@@ -210,7 +210,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 25, 20, 0, 30]; // Your durations; last 30s for slide7
+  const customDurations = [5, 75, 20, 0, 45]; // Your durations; last 45s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
@@ -323,8 +323,8 @@
   }
   document.body.onclick = launchFullscreen;
 
-  // Refresh every 4 minutes
-setTimeout(() => location.reload(true), 240000);
+  // Refresh every 5 minutes
+setTimeout(() => location.reload(true), 300000);
    
 </script>
 </body>
