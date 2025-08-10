@@ -6,61 +6,326 @@
   <title>Matziv Screens</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      height: 100%;
-      width: 100%;
+    body, html {
+      margin: 0; padding: 0;
+      height: 100%; width: 100%;
       background: black;
       overflow: hidden;
-      font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
+
     .slide {
-      position: fixed;
-      inset: 0;
+      position: absolute;
+      top: 0; left: 0;
+      height: 100vh;
+      width: 100vw;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: url('media/shabbos3.png') no-repeat center center;
-      background-size: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      z-index: 0;
     }
-    .clock-overlay {
+
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    img, video {
+      max-height: 100%;
+      max-width: 100%;
+    }
+
+    .clock-slide {
+      background-color: #0cc0df !important;
       position: absolute;
-      top: 100px;
-      left: 100px;
-      color: white;
-      font-size: 3em;
-      line-height: 1;
-      letter-spacing: 0.05em;
-      font-weight: 600;
-      user-select: none;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      display: flex !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+    }
+
+    #progress-bar-container {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .progress-segment {
+      flex: 1;
+      max-width: 100px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: white;
+      border-radius: 4px;
+      transition: width 0.2s linear;
+    }
+
+    .slide-crop-wrapper {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slide-crop-inner {
+      width: 100%;
+      height: 120%;
+      transform: translateY(-10%);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .slide-crop-inner iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   </style>
 </head>
 <body>
-  <div class="slide">
-    <div class="clock-overlay" id="clock">--:--</div>
+
+  <!-- SLIDE 1 - CLOCK -->
+  <div class="slide clock-slide" style="background: url('media/clock-background.png') no-repeat center center; background-size: cover; padding-left: 100px; box-sizing: border-box; color: black; font-family: monospace; font-size: 7em;">
+    <div id="clock-container" style="display: flex; flex-direction: column; align-items: flex-start; font-size: 2em;">
+      <div style="background: rgba(255, 255, 255, 0.7); padding: 20px 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); color: black; font-weight: bold;">
+        <div id="date" style="font-size: 0.2em; margin-bottom: 10px;"></div>
+        <div id="clock" style="font-size: 0.5em; letter-spacing: 0.1em;"></div>
+      </div>
+    </div>
   </div>
 
-  <script>
-    function updateClock() {
-      const now = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Chicago" }));
-      let hours = now.getHours();
-      const minutes = now.getMinutes();
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12;
-      if (hours === 0) hours = 12;
-      const paddedMinutes = String(minutes).padStart(2, '0');
-      document.getElementById('clock').textContent = `${hours}:${paddedMinutes} ${ampm}`;
+  <!-- SLIDE 2 - GSLIDE SCHEDULE -->
+  <div class="slide slide2">
+    <div class="slide-crop-wrapper">
+      <div class="slide-crop-inner">
+        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTkd9FQi3BRBDRe-EN2YSSU2QG8lMni51b4nTjMLNMlSjcbt__Nq3OCNpafs4sgMKwCe53Z5v2p0E-i/pubembed?start=true&loop=true&delayms=3000" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 - SPORTS STATS -->
+  <div class="slide">
+    <div class="slide-crop-wrapper">
+      <div class="slide-crop-inner">
+        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vS8CTXSieL6scn1KAWIuhyBHE_FIYD5m-e8m8RfRlp3l0Ea7WpbObSHufxG9z_m8kFuDc-ueseCcCaB/pubembed?start=true&loop=true&delayms=10000" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 - SHARK IMAGE -->
+  <div class="slide active">
+    <img src="media/shark.png" />
+  </div>
+
+  <!-- SLIDE 5 - VIDEO -->
+  <div class="slide hidden-slide">
+    <video autoplay muted playsinline>
+      <source src="media/gwho.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- SLIDE 6 - GSLIDE BRACHOS -->
+  <div id="slide7" class="slide slide7 hidden-slide">
+    <div class="slide-crop-wrapper">
+      <div class="slide-crop-inner">
+        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRF_y4VwNAMDxx9N8MKIJLrS-aCkb_RtWtpmrkKflOG3ux-a6f9WyutEfynoWhgKWwniFOxqZksiOEf/pubembed?start=true&loop=true&delayms=30000" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div id="progress-bar-container"></div>
+
+ <script>
+  function getChicagoTime() {
+    return new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
+  }
+
+  function isSlide2OnlyTime() {
+    const now = new Date(getChicagoTime());
+    const day = now.getDay(); // 0 = Sunday
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const totalMinutes = hours * 60 + minutes;
+    return day >= 0 && day <= 5 && totalMinutes >= 700 && totalMinutes < 750; // 11:40am–12:30pm
+  }
+
+  function isSlide7AddTime() {
+    const now = new Date(getChicagoTime());
+    const day = now.getDay(); // 0=Sun, ..., 6=Sat
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const totalMinutes = hours * 60 + minutes;
+
+    // Sunday(0) to Friday(5) 9:20 AM to 10:05 AM
+    const slot1 = day >= 0 && day <= 5 && totalMinutes >= (9*60 + 20) && totalMinutes < (10*60 + 5);
+
+    // Sunday(0) to Friday(5) 1:15 PM to 2:00 PM
+    const slot2 = day >= 0 && day <= 5 && totalMinutes >= (13*60 + 15) && totalMinutes < (14*60);
+
+    // Sunday(0) to Thursday(4) 7:00 PM to 7:45 PM
+    const slot3 = day >= 0 && day <= 4 && totalMinutes >= (19*60) && totalMinutes < (19*60 + 45);
+
+    return slot1 || slot2 || slot3;
+  }
+
+  function getActiveSlides() {
+    const allSlides = Array.from(document.querySelectorAll('.slide')).filter(slide => !slide.classList.contains('hidden-slide'));
+    const slide2 = document.querySelector('.slide2');
+    const slide7 = document.querySelector('.slide7');
+
+    if (isSlide2OnlyTime()) {
+      document.getElementById('progress-bar-container').style.display = 'none';
+      return [slide2];
     }
 
-    updateClock();
-    setInterval(updateClock, 15000);
+    if (isSlide7AddTime()) {
+      // Show all normal visible slides + slide7
+      const baseSlides = allSlides.filter(slide => slide !== slide7);
+      document.getElementById('progress-bar-container').style.display = 'flex';
+      return [...baseSlides, slide7];
+    }
 
-   // Simple refresh every 4 minutes
-    setInterval(() => {
-      location.reload(true);
-    }, 240000); // 4 minutes
+    document.getElementById('progress-bar-container').style.display = 'flex';
+    return allSlides;
+  }
 
-  </script>
+  document.querySelectorAll('.slide').forEach(slide => slide.classList.remove('active'));
+
+  let slides = getActiveSlides();
+
+  const customDurations = [5, 30, 20, 10, 45]; // Your durations; last 45s for slide7
+  let slideDurations = slides.map((slide, i) => {
+    const video = slide.querySelector("video");
+    if (video) return 0;
+    return customDurations[i] !== undefined ? customDurations[i] : 8;
+  });
+
+  const progressContainer = document.getElementById('progress-bar-container');
+
+  function loadVideoDurations() {
+    const promises = slides.map((slide, i) => {
+      const video = slide.querySelector("video");
+      if (video) {
+        return new Promise(resolve => {
+          video.onloadedmetadata = () => {
+            slideDurations[i] = video.duration;
+            resolve();
+          };
+        });
+      }
+      return Promise.resolve();
+    });
+    return Promise.all(promises);
+  }
+
+  function getTotalDuration() {
+    return slideDurations.reduce((a, b) => a + b, 0);
+  }
+
+  function getCurrentSlideIndex(offsetTime) {
+    let total = 0;
+    for (let i = 0; i < slideDurations.length; i++) {
+      total += slideDurations[i];
+      if (offsetTime < total) return i;
+    }
+    return 0;
+  }
+
+  function getSlideStartTime(index) {
+    return slideDurations.slice(0, index).reduce((a, b) => a + b, 0);
+  }
+
+  let lastIndex = -1;
+  let startTime = Date.now();
+
+  function syncSlides() {
+    const total = getTotalDuration();
+    const now = ((Date.now() - startTime) / 1000) % total;
+    const index = getCurrentSlideIndex(now);
+    const slideStart = getSlideStartTime(index);
+    const slideDuration = slideDurations[index];
+    const elapsed = now - slideStart;
+
+    if (index !== lastIndex) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+        const video = slide.querySelector("video");
+        if (video) video.pause();
+      });
+      lastIndex = index;
+    }
+
+    const currentSlide = slides[index];
+    const video = currentSlide.querySelector("video");
+    if (video) {
+      const targetTime = now - slideStart;
+      if (Math.abs(video.currentTime - targetTime) > 0.5) {
+        video.currentTime = targetTime;
+      }
+      if (video.paused) video.play();
+    }
+
+    const segments = document.querySelectorAll('.progress-fill');
+    segments.forEach((seg, i) => {
+      if (i < index) seg.style.width = '100%';
+      else if (i === index) seg.style.width = `${(elapsed / slideDuration) * 100}%`;
+      else seg.style.width = '0%';
+    });
+  }
+
+  loadVideoDurations().then(() => {
+    progressContainer.innerHTML = '';
+    slideDurations.forEach(() => {
+      const segment = document.createElement('div');
+      segment.className = 'progress-segment';
+      const fill = document.createElement('div');
+      fill.className = 'progress-fill';
+      segment.appendChild(fill);
+      progressContainer.appendChild(segment);
+    });
+    syncSlides();
+    setInterval(syncSlides, 500);
+  });
+
+  // Clock
+  function updateClock() {
+    const options = { timeZone: 'America/Chicago', hour12: true, hour: 'numeric', minute: '2-digit', second: '2-digit' };
+    const dateOptions = { timeZone: 'America/Chicago', weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    document.getElementById('clock').textContent = new Intl.DateTimeFormat('en-US', options).format(new Date());
+    document.getElementById('date').textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date());
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Fullscreen
+  function launchFullscreen() {
+    const el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
+  }
+  document.body.onclick = launchFullscreen;
+
+  // Refresh every 5 minutes
+setTimeout(() => location.reload(true), 300000);
+   
+</script>
 </body>
 </html>
