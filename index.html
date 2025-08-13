@@ -129,9 +129,9 @@
     </div>
   </div>
 
-  <!-- SLIDE 4 - SHARK IMAGE -->
-  <div class="slide hidden-slide">
-    <img src="media/shark3.png" />
+  <!-- SLIDE 4 - IMAGE -->
+  <div class="slide active">
+    <img src="media/brachosbr.png" />
   </div>
 
   <!-- SLIDE 5 - VIDEO -->
@@ -210,7 +210,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 30, 20, 45]; // Your durations; last 45s for slide7
+  const customDurations = [5, 30, 20, 45, 45]; // Your durations; last 45s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
