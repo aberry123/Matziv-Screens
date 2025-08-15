@@ -134,6 +134,11 @@
     <img src="media/camera.png" />
   </div>
 
+    <!-- SLIDE 4 - IMAGE -->
+  <div class="slide active">
+    <img src="media/nad.png" />
+  </div>
+
   <!-- SLIDE 5 - VIDEO -->
   <div class="slide hidden-slide">
     <video autoplay muted playsinline>
@@ -210,7 +215,7 @@
 
   let slides = getActiveSlides();
 
-  const customDurations = [5, 30, 20, 40, 60]; // Your durations; last 45s for slide7
+  const customDurations = [5, 30, 20, 40, 15, 60]; // Your durations; last 45s for slide7
   let slideDurations = slides.map((slide, i) => {
     const video = slide.querySelector("video");
     if (video) return 0;
